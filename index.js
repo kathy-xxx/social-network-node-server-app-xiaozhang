@@ -4,6 +4,7 @@ import session from "express-session";
 import cors from "cors";
 import Hello from "./Hello.js";
 import UserRoutes from "./Users/routes.js";
+import BookRoutes from "./Books/routes.js";
 const app = express();
 app.use(
   cors({
@@ -28,4 +29,5 @@ app.use(session(sessionOptions));
 app.use(express.json());
 Hello(app);
 UserRoutes(app);
+BookRoutes(app);
 app.listen(process.env.PORT || 4000);
