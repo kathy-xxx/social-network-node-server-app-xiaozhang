@@ -1,0 +1,37 @@
+{
+  "type": "module",
+  "name": "social-network-node-server-app-xiaozhang",
+  "version": "1.0.0",
+  "description": "Node.js HTTP Web server for the Social Network application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kathy-xxx/social-network-node-server-app-xiaozhang.git"
+  },
+  "keywords": [
+    "Node",
+    "REST",
+    "Server",
+    "HTTP",
+    "Web",
+    "Development",
+    "CS5610"
+  ],
+  "author": "Zixuan Xiao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kathy-xxx/social-network-node-server-app-xiaozhang/issues"
+  },
+  "homepage": "https://github.com/kathy-xxx/social-network-node-server-app-xiaozhang#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "uuid": "^11.1.0"
+  }
+}
