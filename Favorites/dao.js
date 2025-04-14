@@ -9,7 +9,7 @@ export function findFavoritesByUser(userId) {
 }
 export function createFavorite(userId, bookId) {
   const newFavorite = { _id: uuidv4(), user_id: userId, book_id: bookId };
-  Database.favorites = [...Database.favoritebooks, newFavorite];
+  Database.favoritebooks = [...Database.favoritebooks, newFavorite];
   return newFavorite;
 }
 export function deleteFavorite(userId, bookId) {
