@@ -1,4 +1,6 @@
 import * as dao from "./dao.js";
+import * as favoriteDao from "../Favorites/dao.js";
+import * as followDao from "../Follows/dao.js";
 export default function UserRoutes(app) {
   const createUser = (req, res) => {};
   const deleteUser = (req, res) => {};
@@ -62,6 +64,69 @@ export default function UserRoutes(app) {
     }
     res.json(currentUser);
   };
+  const favorite = (req, res) => {
+    const { bookId } = req.params;
+    const currentUser = req.session["currentUser"];
+    if (!currentUser) {
+      res.sendStatus(401);
+      return;
+    }
+    const newFavorite = favoriteDao.createFavorite(currentUser._id, bookId);
+    console.log("Add favorite:", currentUser._id, bookId);
+    res.json(newFavorite);
+  };
+  const unfavorite = (req, res) => {
+    const { bookId } = req.params;
+    const currentUser = req.session["currentUser"];
+    if (!currentUser) {
+      res.sendStatus(401);
+      return;
+    }
+    const status = favoriteDao.deleteFavorite(currentUser._id, bookId);
+    console.log("Delete favorite:", currentUser._id, bookId);
+    res.json(status);
+  };
+  const findFavorites = (req, res) => {
+    const currentUser = req.session["currentUser"];
+    if (!currentUser) {
+      res.sendStatus(401);
+      return;
+    }
+    const favorites = favoriteDao.findFavoritesByUser(currentUser._id);
+    res.json(favorites);
+  };
+  const follow = (req, res) => {
+    const { followeeId } = req.params;
+    const currentUser = req.session["currentUser"];
+    if (!currentUser) {
+      res.sendStatus(401);
+      return;
+    }
+    const newFollow = followDao.createFollow(currentUser._id, followeeId);
+    console.log("Add follow:", currentUser._id, followeeId);
+    res.json(newFollow);
+  };
+  const unfollow = (req, res) => {
+    const { followeeId } = req.params;
+    const currentUser = req.session["currentUser"];
+    if (!currentUser) {
+      res.sendStatus(401);
+      return;
+    }
+    const status = followDao.deleteFollow(currentUser._id, followeeId);
+    console.log("Delete follow:", currentUser._id, followeeId);
+    res.json(status);
+  };
+  const findFollowersForUser = (req, res) => {
+    const { userId } = req.params;
+    const followers = followDao.findFollowersForUser(userId);
+    res.json(followers);
+  };
+  const findFolloweesForUser = (req, res) => {
+    const { userId } = req.params;
+    const followees = followDao.findFolloweesForUser(userId);
+    res.json(followees);
+  };
   app.post("/api/users", createUser);
   app.get("/api/users", findAllUsers);
   app.get("/api/users/:userId", findUserById);
@@ -71,4 +136,11 @@ export default function UserRoutes(app) {
   app.post("/api/users/signin", signin);
   app.post("/api/users/signout", signout);
   app.post("/api/users/profile", profile);
+  app.post("/api/users/favorite/:bookId", favorite);
+  app.delete("/api/users/favorite/:bookId", unfavorite);
+  app.get("/api/users/favorites", findFavorites);
+  app.post("/api/users/follow/:followeeId", follow);
+  app.delete("/api/users/follow/:followeeId", unfollow);
+  app.get("/api/users/:userId/followers", findFollowersForUser);
+  app.get("/api/users/:userId/followees", findFolloweesForUser);
 }

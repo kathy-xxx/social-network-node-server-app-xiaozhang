@@ -5,6 +5,11 @@ import cors from "cors";
 import Hello from "./Hello.js";
 import UserRoutes from "./Users/routes.js";
 import BookRoutes from "./Books/routes.js";
+import ReviewRoutes from "./Reviews/routes.js";
+import FavoriteRoutes from "./Favorites/routes.js";
+import GenreRoutes from "./Genres/routes.js";
+import followRoutes from "./Follows/routes.js";
+import FollowRoutes from "./Follows/routes.js";
 const app = express();
 app.use(
   cors({
@@ -30,4 +35,8 @@ app.use(express.json());
 Hello(app);
 UserRoutes(app);
 BookRoutes(app);
+ReviewRoutes(app);
+FavoriteRoutes(app);
+GenreRoutes(app);
+FollowRoutes(app);
 app.listen(process.env.PORT || 4000);
