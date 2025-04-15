@@ -1,4 +1,5 @@
 import express from "express";
+import mongoose from "mongoose";
 import "dotenv/config";
 import session from "express-session";
 import cors from "cors";
@@ -8,8 +9,10 @@ import BookRoutes from "./Books/routes.js";
 import ReviewRoutes from "./Reviews/routes.js";
 import FavoriteRoutes from "./Favorites/routes.js";
 import GenreRoutes from "./Genres/routes.js";
-import followRoutes from "./Follows/routes.js";
 import FollowRoutes from "./Follows/routes.js";
+const CONNECTION_STRING =
+  process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/hub";
+mongoose.connect(CONNECTION_STRING);
 const app = express();
 app.use(
   cors({
