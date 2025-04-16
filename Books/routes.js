@@ -2,41 +2,41 @@ import * as dao from "./dao.js";
 import * as reviewDao from "../Reviews/dao.js";
 import books from "../Database/books.js";
 export default function BookRoutes(app) {
-  app.get("/api/books", (req, res) => {
-    const books = dao.findAllBooks();
+  app.get("/api/books", async (req, res) => {
+    const books = await dao.findAllBooks();
     res.send(books);
   });
-  app.post("/api/books", (req, res) => {
-    const newBook = dao.createBook(req.body);
-    console.log("Create new book:", req.body);
+  app.post("/api/books", async (req, res) => {
+    const newBook = await dao.createBook(req.body);
+    console.log("Create new book:", newBook);
     res.json(newBook);
   });
-  app.delete("/api/books/:bookId", (req, res) => {
+  app.delete("/api/books/:bookId", async (req, res) => {
     const { bookId } = req.params;
-    const status = dao.deleteBook(bookId);
+    const status = await dao.deleteBook(bookId);
     console.log("Delete book:", bookId);
     res.send(status);
   });
-  app.put("/api/books/:bookId", (req, res) => {
+  app.put("/api/books/:bookId", async (req, res) => {
     const { bookId } = req.params;
     const bookUpdates = req.body;
-    const status = dao.updateBook(bookId, bookUpdates);
+    const status = await dao.updateBook(bookId, bookUpdates);
     console.log("Update book:", req.body);
     res.send(status);
   });
-  app.get("/api/books/:bookId/reviews", (req, res) => {
+  app.get("/api/books/:bookId/reviews", async (req, res) => {
     const { bookId } = req.params;
-    const reviews = reviewDao.findReviewsForBook(bookId);
+    const reviews = await reviewDao.findReviewsForBook(bookId);
     res.send(reviews);
   });
-  app.get("/api/books/:bookId", (req, res) => {
+  app.get("/api/books/:bookId", async (req, res) => {
     const { bookId } = req.params;
-    const book = dao.findBookById(bookId);
+    const book = await dao.findBookById(bookId);
     res.send(book);
   });
-  app.get("/api/books/:bookId/author", (req, res) => {
+  app.get("/api/books/:bookId/author", async (req, res) => {
     const { bookId } = req.params;
-    const author = dao.findAuthorForBook(bookId);
+    const author = await dao.findAuthorForBook(bookId);
     res.send(author);
   });
   app.get("/api/books/genres/:genreId", (req, res) => {
