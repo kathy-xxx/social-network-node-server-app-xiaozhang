@@ -78,67 +78,67 @@ export default function UserRoutes(app) {
     }
     res.json(currentUser);
   };
-  const favorite = (req, res) => {
+  const favorite = async (req, res) => {
     const { bookId } = req.params;
     const currentUser = req.session["currentUser"];
     if (!currentUser) {
       res.sendStatus(401);
       return;
     }
-    const newFavorite = favoriteDao.createFavorite(currentUser._id, bookId);
+    const newFavorite = await favoriteDao.createFavorite(currentUser._id, bookId);
     console.log("Add favorite:", currentUser._id, bookId);
     res.json(newFavorite);
   };
-  const unfavorite = (req, res) => {
+  const unfavorite = async (req, res) => {
     const { bookId } = req.params;
     const currentUser = req.session["currentUser"];
     if (!currentUser) {
       res.sendStatus(401);
       return;
     }
-    const status = favoriteDao.deleteFavorite(currentUser._id, bookId);
+    const status = await favoriteDao.deleteFavorite(currentUser._id, bookId);
     console.log("Delete favorite:", currentUser._id, bookId);
     res.json(status);
   };
-  const findFavorites = (req, res) => {
+  const findFavorites = async (req, res) => {
     const currentUser = req.session["currentUser"];
     if (!currentUser) {
       res.sendStatus(401);
       return;
     }
-    const favorites = favoriteDao.findFavoritesByUser(currentUser._id);
+    const favorites = await favoriteDao.findFavoritesByUser(currentUser._id);
     res.json(favorites);
   };
-  const follow = (req, res) => {
+  const follow = async (req, res) => {
     const { followeeId } = req.params;
     const currentUser = req.session["currentUser"];
     if (!currentUser) {
       res.sendStatus(401);
       return;
     }
-    const newFollow = followDao.createFollow(currentUser._id, followeeId);
+    const newFollow = await followDao.createFollow(currentUser._id, followeeId);
     console.log("Add follow:", currentUser._id, followeeId);
     res.json(newFollow);
   };
-  const unfollow = (req, res) => {
+  const unfollow = async (req, res) => {
     const { followeeId } = req.params;
     const currentUser = req.session["currentUser"];
     if (!currentUser) {
       res.sendStatus(401);
       return;
     }
-    const status = followDao.deleteFollow(currentUser._id, followeeId);
+    const status = await followDao.deleteFollow(currentUser._id, followeeId);
     console.log("Delete follow:", currentUser._id, followeeId);
     res.json(status);
   };
-  const findFollowersForUser = (req, res) => {
+  const findFollowersForUser = async (req, res) => {
     const { userId } = req.params;
-    const followers = followDao.findFollowersForUser(userId);
+    const followers = await followDao.findFollowersForUser(userId);
     res.json(followers);
   };
-  const findFolloweesForUser = (req, res) => {
+  const findFolloweesForUser = async (req, res) => {
     const { userId } = req.params;
-    const followees = followDao.findFolloweesForUser(userId);
+    const followees = await followDao.findFolloweesForUser(userId);
     res.json(followees);
   };
   app.post("/api/users", createUser);

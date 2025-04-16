@@ -1,4 +1,4 @@
-import Database from "../Database/index.js";
+import model from "./model.js";
 export function findAllGenres() {
-    return Database.genres;
+    return model.find();
 }

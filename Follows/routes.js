@@ -1,7 +1,7 @@
 import * as dao from "./dao.js";
 export default function FollowRoutes(app) {
-  app.get("/api/follows", (req, res) => {
-    const follows = dao.findAllFollows();
+  app.get("/api/follows",  async (req, res) => {
+    const follows = await dao.findAllFollows();
     res.send(follows);
   });
 }

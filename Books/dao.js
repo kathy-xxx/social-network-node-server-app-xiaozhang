@@ -1,7 +1,8 @@
-import Database from "../Database/index.js";
 import { v4 as uuidv4 } from "uuid";
 import model from "./model.js";
 import userModel from "../Users/model.js";
+import booktogenreModel from "../BooksToGenres/model.js";
+import favoriteModel from "../Favorites/model.js";
 export function findAllBooks() {
   return model.find();
 }
@@ -24,20 +25,15 @@ export async function findAuthorForBook(bookId) {
   const author = await userModel.findById(book.author_id);
   return author;
 }
-export function findBooksByGenre(genreId) {
-  const { books, bookstogenres } = Database;
-  const mappings = bookstogenres.filter(
-    (mapping) => mapping.genre_id === genreId
-  );
-  const validBookIds = mappings.map((mapping) => mapping.book_id);
-  const filteredBooks = books.filter((book) => validBookIds.includes(book._id));
-  return filteredBooks;
+export async function findBooksByGenre(genreId) {
+  const mappings = await booktogenreModel.find({ genre_id: genreId });
+  const bookIds = mappings.map((m) => m.book_id);
+  const books = await model.find({ _id: { $in: bookIds } });
+  return books;
 }
-export function findFavoriteBooksForUser(userId) {
-  const { favoritebooks, books } = Database;
-  const userFavorites = favoritebooks.filter((fav) => fav.user_id === userId);
-  const filteredBooks = books.filter((book) =>
-    userFavorites.map((fav) => fav.book_id).includes(book._id)
-  );
-  return filteredBooks;
+export async function findFavoriteBooksForUser(userId) {
+  const userFavorites = await favoriteModel.find({user_id: userId});
+  const bookIds = userFavorites.map(f => f.book_id);
+  const books = await model.find({ _id: { $in: bookIds } });
+  return books;
 }

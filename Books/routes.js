@@ -39,14 +39,14 @@ export default function BookRoutes(app) {
     const author = await dao.findAuthorForBook(bookId);
     res.send(author);
   });
-  app.get("/api/books/genres/:genreId", (req, res) => {
+  app.get("/api/books/genres/:genreId", async (req, res) => {
     const { genreId } = req.params;
-    const books = dao.findBooksByGenre(genreId);
+    const books = await dao.findBooksByGenre(genreId);
     res.send(books);
   });
-  app.get("/api/books/favorites/users/:userId", (req, res) => {
+  app.get("/api/books/favorites/users/:userId", async (req, res) => {
     const { userId } = req.params;
-    const books = dao.findFavoriteBooksForUser(userId);
+    const books = await dao.findFavoriteBooksForUser(userId);
     res.send(books);
   });
 }
